@@ -48,12 +48,15 @@
      <Compile Include="Assets\Attractor.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
      <Compile Include="Assets\Input_Module.cs" />
+     <Compile Include="Assets\Moving_Platform.cs" />
      <Compile Include="Assets\Planet Earth Free\SpinFree.cs" />
+     <Compile Include="Assets\Platform_Rotation.cs" />
      <Compile Include="Assets\Player_Camera.cs" />
      <Compile Include="Assets\Player_Movement.cs" />
      <Compile Include="Assets\Springboard_Platform.cs" />
      <Compile Include="Assets\StarNestSkybox\Scripts\CameraScroll.cs" />
      <Compile Include="Assets\StarNestSkybox\Scripts\SkyboxSwitcher.cs" />
+     <Compile Include="Assets\Sticky_Platform.cs" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxReadme.txt" />
      <None Include="Assets\StarNestSkybox\StarNestSkybox_HSV.shader" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxMask.shader" />
