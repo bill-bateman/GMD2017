@@ -40,7 +40,6 @@ public class Player_Camera : MonoBehaviour {
         //rotate the camera (i.e. look up or down)
 
         Vector3 straight_back = new Vector3(0, 0, 10);
-        float curr_angle = Vector3.Angle(straight_back, offset);
         float direction = (up ? 1.0f : -1.0f);
         float new_y = offset.y + (direction * angle_incr);
 

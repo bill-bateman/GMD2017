@@ -13,11 +13,19 @@ using System.Collections;
  */
 public class CoinRotate : MonoBehaviour {
 
+    public int coin_index = -1; //NEEDS TO BE UNIQUE ACROSS ALL COINS
+
     private float angle;
     private float angle_incr;
 
 	// Use this for initialization
 	void Start () {
+        if (Game_Control.control.check_cat_coin(coin_index))
+        {
+            //coin has already been collected
+            //don't spawn
+            gameObject.SetActive(false);
+        }
         angle_incr = 1.0f;
 	}
 	
@@ -32,6 +40,7 @@ public class CoinRotate : MonoBehaviour {
         if (other.tag == "player")
         {
             gameObject.SetActive(false);
+            Game_Control.control.collect_cat_coin(coin_index); //increase by 1
         }
     }
 }

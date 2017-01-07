@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Attractor.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
+     <Compile Include="Assets\Game_Control.cs" />
      <Compile Include="Assets\Input_Module.cs" />
      <Compile Include="Assets\Moving_Platform.cs" />
      <Compile Include="Assets\Planet Earth Free\SpinFree.cs" />
