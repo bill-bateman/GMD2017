@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -17,9 +18,13 @@ public class Game_Control : MonoBehaviour {
 
     public static Game_Control control; //acts as a singleton
     private SaveData data = new SaveData();
+    private bool loadable = false;
+
+    //for the options menu
+    public bool is_options_menu_open = false;
 
     //NOTE: debugging thing - use this to revert to default data
-    private static bool delete_data_on_start_up = true;
+    private static bool delete_data_on_start_up = false;
 
 
     /*** GETTERS AND SETTERS ***/
@@ -39,6 +44,14 @@ public class Game_Control : MonoBehaviour {
         if (index > SaveData.total_cats || index < 0) return true; //true => already collected
         return data.is_cat_collected[index]; 
     }
+    public bool does_load_file_exist() { return loadable; }
+
+    public int get_volume() { return data.volume; }
+    public void set_volume(int v) { data.volume = v; }
+    public bool get_x_axis_inverted() { return data.invert_cam_x_axis; }
+    public void set_x_axis_inverted(bool v) { data.invert_cam_x_axis = v; }
+    public bool get_y_axis_inverted() { return data.invert_cam_y_axis; }
+    public void set_y_axis_inverted(bool v) { data.invert_cam_y_axis = v; }
 
 
     /*** SAVING AND LOADING THE DATA ***/
@@ -62,23 +75,38 @@ public class Game_Control : MonoBehaviour {
             try
             {
                 data = (SaveData)bf.Deserialize(fs);
+                loadable = true;
             }
             catch (Exception e)
             {
                 //handle corrupted data
-                data.defaultData(); //revert to default data
+                data.defaultData(true); //revert to default data
+                loadable = false;
             }
             fs.Close();
         }
         else
         {
             //create default data
-            data.defaultData();
-            //create a save file
-            Save();
+            data.defaultData(true);
         }
 
         
+    }
+
+    public void NewGame()
+    {
+        //create default data, overwrite save file
+        data.defaultData(false);
+        Save();
+
+        //go to the first scene
+        SceneManager.LoadScene(data.current_scene, LoadSceneMode.Single);
+    }
+    public void LoadGame()
+    {
+        //go to the saved scene
+        SceneManager.LoadScene(data.current_scene, LoadSceneMode.Single);
     }
 
 	// Use this for initialization the singleton
@@ -89,7 +117,7 @@ public class Game_Control : MonoBehaviour {
             //create object (none exists)
             DontDestroyOnLoad(gameObject);
             if (delete_data_on_start_up)
-                data.defaultData();
+                data.defaultData(true);
             else
                 Load(); //load data from file
             control = this;
@@ -123,12 +151,29 @@ class SaveData
 
     public bool[] is_cat_collected = new bool[total_cats];
 
-    public void defaultData()
+    public string current_scene;
+
+    //VARIABLES FOR OPTIONS MENU
+    public int volume;
+    public bool invert_cam_x_axis;
+    public bool invert_cam_y_axis;
+
+    public void defaultData(bool reset_options)
     {
         player_health = 5;
         player_max = 5;
         cats_collected = 0;
         cats_available = 3;
         for (int i = 0; i < total_cats; i++) { is_cat_collected[i] = false; }
+
+        current_scene = "world_1";
+
+        if (reset_options)
+        {
+            volume = 0;
+            invert_cam_x_axis = false;
+            invert_cam_y_axis = true;
+        }
+        
     }
 }

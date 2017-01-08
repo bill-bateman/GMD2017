@@ -50,7 +50,7 @@ public class Player_Movement : MonoBehaviour {
         cam.update_offset(curr_attr.camera_offset);
 	}
 
-    //called on entering collision (one of the 2 objects needs to have isTrigger checked)
+    //called on entering collision (one of the 2 objects in the collision needs to have isTrigger checked for this to occur)
     void OnTriggerEnter(Collider other) {
         if (other.tag == "planet") { 
             is_on_ground = true;
@@ -66,7 +66,7 @@ public class Player_Movement : MonoBehaviour {
 
     //called on leaving collision (one of the 2 objects needs to have isTrigger checked)
     void OnTriggerExit(Collider other) {
-        if (other.tag == "planet") { 
+        if (other.tag == "planet" || other.tag == "jumpable") { 
             is_on_ground = false;  
         }
     }

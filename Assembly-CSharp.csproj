@@ -47,9 +47,17 @@
   <ItemGroup>
      <Compile Include="Assets\Attractor.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
+     <Compile Include="Assets\EventSystem_ForceButtonSelect.cs" />
+     <Compile Include="Assets\ExitButton.cs" />
      <Compile Include="Assets\Game_Control.cs" />
      <Compile Include="Assets\Input_Module.cs" />
+     <Compile Include="Assets\LoadButton.cs" />
      <Compile Include="Assets\Moving_Platform.cs" />
+     <Compile Include="Assets\NewGame.cs" />
+     <Compile Include="Assets\Options_Button.cs" />
+     <Compile Include="Assets\Options_ExitButton.cs" />
+     <Compile Include="Assets\Options_SaveButton.cs" />
+     <Compile Include="Assets\Options_Values.cs" />
      <Compile Include="Assets\Planet Earth Free\SpinFree.cs" />
      <Compile Include="Assets\Platform_Rotation.cs" />
      <Compile Include="Assets\Player_Camera.cs" />
@@ -58,6 +66,7 @@
      <Compile Include="Assets\StarNestSkybox\Scripts\CameraScroll.cs" />
      <Compile Include="Assets\StarNestSkybox\Scripts\SkyboxSwitcher.cs" />
      <Compile Include="Assets\Sticky_Platform.cs" />
+     <Compile Include="Assets\linear_move.cs" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxReadme.txt" />
      <None Include="Assets\StarNestSkybox\StarNestSkybox_HSV.shader" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxMask.shader" />

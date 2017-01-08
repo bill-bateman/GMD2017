@@ -52,7 +52,9 @@ public class Attractor : MonoBehaviour {
         obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, target_rot, rot_speed * Time.deltaTime);
 
         //GRAVITY
-        float distance = Vector3.Magnitude(center - obj.transform.position); //inverse square relationship with distance (keep in for realism or remove for gameplay?)
-        obj.AddForce(local_grav * up * 100.0f / (distance*distance));
+        obj.AddForce(local_grav * up);
+
+        //float distance = Vector3.Magnitude(center - obj.transform.position); //inverse square relationship with distance (keep in for realism or remove for gameplay?)
+        //obj.AddForce(local_grav * up * 100.0f / (distance*distance));
     }
 }
