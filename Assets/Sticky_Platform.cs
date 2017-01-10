@@ -9,21 +9,9 @@ using System.Collections;
  * 
  * 1/6/17:
  *  -keeps the player stuck to a moving platform
+ * 1/9/17:
+ *  -THIS FILE IS NOW OBSOLETE. All the moving platform code is in Moving_Platform.cs
  */
 public class Sticky_Platform : MonoBehaviour {
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "player")
-        {
-            other.gameObject.transform.parent.parent = gameObject.transform.parent;
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "player")
-        {
-            other.gameObject.transform.parent.parent = null;
-        }
-    }
 }

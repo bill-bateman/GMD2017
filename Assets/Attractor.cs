@@ -53,8 +53,5 @@ public class Attractor : MonoBehaviour {
 
         //GRAVITY
         obj.AddForce(local_grav * up);
-
-        //float distance = Vector3.Magnitude(center - obj.transform.position); //inverse square relationship with distance (keep in for realism or remove for gameplay?)
-        //obj.AddForce(local_grav * up * 100.0f / (distance*distance));
     }
 }

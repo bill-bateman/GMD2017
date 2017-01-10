@@ -49,7 +49,6 @@ public class Springboard_Platform : MonoBehaviour {
         {
             //quickly go upwards
             gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, final_pos, up_animation_speed * Time.deltaTime);
-            print(gameObject.transform.position + " - " + final_pos);
             if (Vector3.Magnitude(gameObject.transform.position - final_pos) < 0.1f)
                 animation_state = 2;
         }

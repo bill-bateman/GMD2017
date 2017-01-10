@@ -9,6 +9,9 @@ using System.Collections;
  * 
  * 1/5/17:
  *  -used to interact with the inputs for the game (keyboard, xbox controller)
+ * 1/9/17:
+ *  -changed to use the invert camera axes options from Game_Control
+ *  -changed how input axes are handled to allow analog values from xbox controller
  */
 
 public class Input_Module : MonoBehaviour
@@ -46,10 +49,6 @@ public class Input_Module : MonoBehaviour
     private KeyCode keyboard_cam_left = KeyCode.LeftArrow;
     private KeyCode keyboard_cam_right = KeyCode.RightArrow;
 
-    //CONTROL SETTINGS
-    private bool invert_x_axis = true;
-    private bool invert_y_axis = true;
-
     // Use this for initialization
     void Start()
     {
@@ -72,12 +71,20 @@ public class Input_Module : MonoBehaviour
 
     public float get_fwd_motion() { return fwd_back; }
     public float get_strafe_motion() { return left_right; }
-    public float get_camera_vertical() { return cam_movement_updown; }
-    public float get_camera_horizontal() { return cam_movement_leftright; }
+    public float get_camera_vertical() { return Game_Control.control.get_y_axis_inverted() ? -cam_movement_updown : cam_movement_updown; }
+    public float get_camera_horizontal() { return Game_Control.control.get_x_axis_inverted() ? -cam_movement_leftright : cam_movement_leftright; }
+
+
+
+
+
+
+
+
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         is_controller = false;
         string[] names = Input.GetJoystickNames();
@@ -88,12 +95,13 @@ public class Input_Module : MonoBehaviour
 
         if (is_controller)
         {
+
             //motion
             fwd_back = Input.GetAxis(controller_movement_y_axis);
             left_right = Input.GetAxis(controller_movement_x_axis);
 
             //camera rotation
-            cam_movement_updown = Input.GetAxis(controller_cam_y_axis) * controller_rotation_multiplier;
+            cam_movement_updown = Input.GetAxis(controller_cam_y_axis) ;
             cam_movement_leftright = Input.GetAxis(controller_cam_x_axis) * controller_rotation_multiplier;
 
             camera_h = camera_v = movement_h = movement_v = true;
@@ -102,6 +110,7 @@ public class Input_Module : MonoBehaviour
             //jump
             if (!jump_button)
                 jump_button = Input.GetKeyDown(controller_jump_button);
+
         }
         else
         {
@@ -121,7 +130,7 @@ public class Input_Module : MonoBehaviour
 
             if (move_fwd ^ move_back)
             {
-                fwd_back = (move_back ? -1 : 1); movement_v = true;
+                fwd_back = (move_back ? -1.0f : 1.0f); movement_v = true;
             }
             else { fwd_back = 0.0f; movement_v = false; }
 
@@ -141,7 +150,7 @@ public class Input_Module : MonoBehaviour
             bool rot_down = Input.GetKey(keyboard_cam_down);
             if (rot_up ^ rot_down)
             {
-                cam_movement_updown = camera_vertical_rotation * (rot_down ? -1.0f : 1.0f); camera_v = true;
+                cam_movement_updown = (rot_down ? -1.0f : 1.0f); camera_v = true;
             }
             else { cam_movement_updown = 0.0f; camera_v = false; }
 
@@ -149,6 +158,7 @@ public class Input_Module : MonoBehaviour
             //JUMP
             if (!jump_button)
                 jump_button = (Input.GetKeyDown(keyboard_jump_button));
+
 
         }
     }
