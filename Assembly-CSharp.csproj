@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Attractor.cs" />
+     <Compile Include="Assets\CatBarrier.cs" />
+     <Compile Include="Assets\Checkpoint_Platform.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
      <Compile Include="Assets\EventSystem_ForceButtonSelect.cs" />
      <Compile Include="Assets\ExitButton.cs" />
@@ -62,10 +64,12 @@
      <Compile Include="Assets\Platform_Rotation.cs" />
      <Compile Include="Assets\Player_Camera.cs" />
      <Compile Include="Assets\Player_Movement.cs" />
+     <Compile Include="Assets\Player_Spawner.cs" />
      <Compile Include="Assets\Springboard_Platform.cs" />
      <Compile Include="Assets\StarNestSkybox\Scripts\CameraScroll.cs" />
      <Compile Include="Assets\StarNestSkybox\Scripts\SkyboxSwitcher.cs" />
      <Compile Include="Assets\Sticky_Platform.cs" />
+     <Compile Include="Assets\UI_Handler.cs" />
      <Compile Include="Assets\linear_move.cs" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxReadme.txt" />
      <None Include="Assets\StarNestSkybox\StarNestSkybox_HSV.shader" />

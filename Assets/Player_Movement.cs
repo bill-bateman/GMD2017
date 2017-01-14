@@ -57,6 +57,17 @@ public class Player_Movement : MonoBehaviour {
         cam.update_offset(curr_attr.camera_offset);
 
         jump_counter = 0;
+
+        Player_Spawner ps = gameObject.GetComponent<Player_Spawner>();
+        Vector3 tmp = ps.get_location_for_index(Game_Control.control.get_current_checkpoint_index());
+        gameObject.transform.position = tmp;
+
+        Attractor a = ps.get_attractor_for_index(Game_Control.control.get_current_checkpoint_index());
+        if (a != null)
+        {
+            curr_attr = a;
+            cam.update_offset(a.camera_offset);
+        }
 	}
 
     //called on entering collision (one of the 2 objects in the collision needs to have isTrigger checked for this to occur)
@@ -76,12 +87,16 @@ public class Player_Movement : MonoBehaviour {
             is_on_ground = true;
             (other.gameObject.GetComponent<Moving_Platform>()).add_item_to_list(gameObject);
         }
-        
+        else if (other.tag == "checkpoint_jumpable")
+        {
+            is_on_ground = true;
+            (other.gameObject.GetComponent<Checkpoint_Platform>()).perform_save();
+        }
     }
 
     //called on leaving collision (one of the 2 objects needs to have isTrigger checked)
     void OnTriggerExit(Collider other) {
-        if (other.tag == "planet" || other.tag == "jumpable") { 
+        if (other.tag == "planet" || other.tag == "jumpable" || other.tag == "checkpoint_jumpable") { 
             is_on_ground = false;  
         }
         else if (other.tag == "sticky_jumpable")
@@ -93,7 +108,7 @@ public class Player_Movement : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "planet" || other.tag == "jumpable")
+        if (other.tag == "planet" || other.tag == "jumpable" || other.tag == "checkpoint_jumpable")
         {
             is_on_ground = true;
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 /* File: Input_Module.cs
@@ -27,9 +28,13 @@ public class Input_Module : MonoBehaviour
     private float fwd_back, left_right;
     private float cam_movement_updown, cam_movement_leftright;
     private bool jump_button, camera_h, camera_v, movement_h, movement_v;
+    private bool start_button;
+    private bool opened_options;
 
     //CONTROLLER BINDINGS
     private KeyCode controller_jump_button = KeyCode.Joystick1Button0; //A
+    private KeyCode controller_start_button = KeyCode.Joystick1Button7; //start
+
     private string controller_movement_x_axis = "Horizontal"; //left stick
     private string controller_movement_y_axis = "Vertical";
     private string controller_cam_x_axis = "Cam_Horizontal"; //right stick
@@ -38,6 +43,7 @@ public class Input_Module : MonoBehaviour
 
     //KEYBOARD BINDINGS
     private KeyCode keyboard_jump_button = KeyCode.Space;
+    private KeyCode keyboard_start_button = KeyCode.Return;
 
     private KeyCode keyboard_movement_up = KeyCode.W;
     private KeyCode keyboard_movement_down = KeyCode.S;
@@ -55,6 +61,8 @@ public class Input_Module : MonoBehaviour
         is_controller = false;
         jump_button = camera_h = camera_v = movement_h = movement_v = false;
         fwd_back = left_right = cam_movement_updown = cam_movement_leftright = 0.0f;
+
+        start_button = opened_options = false;
     }
 
     public bool get_jump() {
@@ -111,6 +119,7 @@ public class Input_Module : MonoBehaviour
             if (!jump_button)
                 jump_button = Input.GetKeyDown(controller_jump_button);
 
+            start_button = Input.GetKeyDown(controller_start_button);
         }
         else
         {
@@ -159,7 +168,26 @@ public class Input_Module : MonoBehaviour
             if (!jump_button)
                 jump_button = (Input.GetKeyDown(keyboard_jump_button));
 
-
+            start_button = Input.GetKeyDown(keyboard_start_button);
         }
+
+
+        if (start_button && !Game_Control.control.is_options_menu_open && !opened_options) {
+            //open the options menu
+            Game_Control.control.is_options_menu_open = true;
+            SceneManager.LoadScene("options_menu", LoadSceneMode.Additive);
+            opened_options = true;
+            Time.timeScale = 0;
+        }
+
+        //for closing the Options menu
+        if (opened_options && !Game_Control.control.is_options_menu_open)
+        {
+            SceneManager.UnloadScene("options_menu");
+            opened_options = false;
+            Time.timeScale = 1;
+        }
+
     }
 }
+

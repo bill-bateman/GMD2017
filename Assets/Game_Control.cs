@@ -16,6 +16,8 @@ using System.IO;
  */
 public class Game_Control : MonoBehaviour {
 
+    public UI_Handler ui_handler;
+
     public static Game_Control control; //acts as a singleton
     private SaveData data = new SaveData();
     private bool loadable = false;
@@ -24,7 +26,7 @@ public class Game_Control : MonoBehaviour {
     public bool is_options_menu_open = false;
 
     //NOTE: debugging thing - use this to revert to default data
-    private static bool delete_data_on_start_up = false;
+    private static bool delete_data_on_start_up = true;
 
 
     /*** GETTERS AND SETTERS ***/
@@ -53,10 +55,18 @@ public class Game_Control : MonoBehaviour {
     public bool get_y_axis_inverted() { return data.invert_cam_y_axis; }
     public void set_y_axis_inverted(bool v) { data.invert_cam_y_axis = v; }
 
+    public void set_current_checkpoint_index(int i) { data.current_checkpoint = i; }
+    public int get_current_checkpoint_index() { return data.current_checkpoint; }
+
+    public SaveData get_save_data() { return data; }
+
 
     /*** SAVING AND LOADING THE DATA ***/
     public void Save()
     {
+        if (ui_handler != null)
+            ui_handler.show_save_text();
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Open(Application.persistentDataPath + "/saveData.dat", FileMode.OpenOrCreate); //uses the persistent data path for the application (for windows sthg like appData/roaming/...)
         
@@ -82,6 +92,7 @@ public class Game_Control : MonoBehaviour {
                 //handle corrupted data
                 data.defaultData(true); //revert to default data
                 loadable = false;
+                print(e.StackTrace);
             }
             fs.Close();
         }
@@ -128,18 +139,11 @@ public class Game_Control : MonoBehaviour {
             Destroy(gameObject);
         }
 	}
-
-    //temporary GUI labels to show data
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 100, 30), "HEALTH: " + data.player_health + " / " + data.player_max);
-        GUI.Label(new Rect(10, 30, 100, 30), "CATS:   " + data.cats_collected + " / " + data.cats_available);
-    }
 	
 }
 
 [Serializable]
-class SaveData
+public class SaveData
 {
     //all the data to be saved to file
     public int player_health;
@@ -152,6 +156,7 @@ class SaveData
     public bool[] is_cat_collected = new bool[total_cats];
 
     public string current_scene;
+    public int current_checkpoint;
 
     //VARIABLES FOR OPTIONS MENU
     public int volume;
@@ -167,6 +172,7 @@ class SaveData
         for (int i = 0; i < total_cats; i++) { is_cat_collected[i] = false; }
 
         current_scene = "world_1";
+        current_checkpoint = 0;
 
         if (reset_options)
         {

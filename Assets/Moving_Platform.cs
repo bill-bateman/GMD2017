@@ -44,8 +44,6 @@ public class Moving_Platform : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-        Vector3 moved = new Vector3(0, 0, 0);
-
         if (movement_state == 0)
         {
             //move to destination
