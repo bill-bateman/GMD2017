@@ -37,6 +37,8 @@ public class CoinRotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Time.timeScale == 0) return;
+
         if (animation_count == 0)
         {
             //rotate around the up axis
@@ -64,6 +66,7 @@ public class CoinRotate : MonoBehaviour {
         {
             animation_count = 1; //start the animation
             Game_Control.control.collect_cat_coin(coin_index); //increase by 1
+            other.GetComponentInParent<Player_Movement>().ui_handler.show_save_text();
         }
     }
 }

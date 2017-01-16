@@ -31,6 +31,10 @@ public class UI_Handler : MonoBehaviour {
         {
             GUI.Label(new Rect(10, 50, 100, 30), "SAVED");
         }
+        if (Game_Control.control.get_save_data().player_health == 0)
+        {
+            GUI.Label(new Rect(10, 70, 100, 30), "YOU DIED");
+        }
     }
 
     public void show_save_text()

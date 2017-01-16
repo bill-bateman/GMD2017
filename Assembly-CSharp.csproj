@@ -49,6 +49,7 @@
      <Compile Include="Assets\CatBarrier.cs" />
      <Compile Include="Assets\Checkpoint_Platform.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
+     <Compile Include="Assets\Continue_Button.cs" />
      <Compile Include="Assets\EventSystem_ForceButtonSelect.cs" />
      <Compile Include="Assets\ExitButton.cs" />
      <Compile Include="Assets\Game_Control.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\Options_ExitButton.cs" />
      <Compile Include="Assets\Options_SaveButton.cs" />
      <Compile Include="Assets\Options_Values.cs" />
+     <Compile Include="Assets\Pause_Camera.cs" />
      <Compile Include="Assets\Planet Earth Free\SpinFree.cs" />
      <Compile Include="Assets\Platform_Rotation.cs" />
      <Compile Include="Assets\Player_Camera.cs" />
@@ -72,9 +74,12 @@
      <Compile Include="Assets\UI_Handler.cs" />
      <Compile Include="Assets\linear_move.cs" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxReadme.txt" />
+     <None Include="Assets\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
      <None Include="Assets\StarNestSkybox\StarNestSkybox_HSV.shader" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxMask.shader" />
      <None Include="Assets\StarNestSkybox\hsv.cginc" />
+     <None Include="Assets\3dText.shader" />
+     <None Include="Assets\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
      <None Include="Assets\StarNestSkybox\StarNestSkybox.shader" />
      <None Include="Assets\read me.txt" />
      <None Include="Assets\StarNestSkybox\StarNest.shader" />

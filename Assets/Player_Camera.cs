@@ -19,17 +19,26 @@ public class Player_Camera : MonoBehaviour {
     public float min_boundary = -5.0f;
     public float max_boundary = -20.0f;
 
-    public Vector3 offset;
+    public float cam_speed = 25.0f;
 
-    	
+    private Vector3 offset;
+
+    void Awake()
+    {
+        //DontDestroyOnLoad(gameObject);
+    }
 
 	// Update is called once per frame
 	void LateUpdate () {
+
         //update the position of the camera, and look at the target object
         Quaternion rotation = Quaternion.Euler(target.transform.eulerAngles.x, target.transform.eulerAngles.y, target.transform.eulerAngles.z);
-        transform.position = Vector3.Slerp(transform.position, target.transform.position - (rotation * offset), Mathf.Abs( Vector3.Magnitude(target.transform.position - (rotation * offset)) / 10.0f ));
+        transform.position = Vector3.Slerp(transform.position, target.transform.position - (rotation * offset), Mathf.Abs(Vector3.Magnitude(target.transform.position - (rotation * offset)) / 10.0f));
 
         transform.LookAt(target.transform, target.transform.up);
+
+        Game_Control.control.curr_cam_position = transform.position;
+        Game_Control.control.curr_cam_rotation = transform.rotation;
 	}
 
 

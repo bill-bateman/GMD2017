@@ -49,7 +49,7 @@ public class Checkpoint_Platform : MonoBehaviour {
         */
 	}
 
-    public void perform_save()
+    public bool perform_save()
     {
         if (animation_count == 0)
         {
@@ -57,6 +57,8 @@ public class Checkpoint_Platform : MonoBehaviour {
             animation_count = animation_max;
             Game_Control.control.set_current_checkpoint_index(checkpoint_index);
             Game_Control.control.Save();
+            return true;
         }
+        return false;
     }
 }

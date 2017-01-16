@@ -16,14 +16,15 @@ using System.IO;
  */
 public class Game_Control : MonoBehaviour {
 
-    public UI_Handler ui_handler;
-
     public static Game_Control control; //acts as a singleton
     private SaveData data = new SaveData();
     private bool loadable = false;
 
     //for the options menu
     public bool is_options_menu_open = false;
+    public bool is_pause_menu_open = false;
+    public Vector3 curr_cam_position;
+    public Quaternion curr_cam_rotation;
 
     //NOTE: debugging thing - use this to revert to default data
     private static bool delete_data_on_start_up = true;
@@ -38,6 +39,10 @@ public class Game_Control : MonoBehaviour {
         data.cats_collected++;
         data.is_cat_collected[index] = true;
 
+        //increase health by one
+        data.player_health++;
+        if (data.player_health > data.player_max) data.player_health = data.player_max;
+
         //auto-save on collect
         Save();
     }
@@ -47,6 +52,15 @@ public class Game_Control : MonoBehaviour {
         return data.is_cat_collected[index]; 
     }
     public bool does_load_file_exist() { return loadable; }
+
+    public void take_damage(int d)
+    {
+        data.player_health -= d;
+    }
+    public void full_health()
+    {
+        data.player_health = data.player_max;
+    }
 
     public int get_volume() { return data.volume; }
     public void set_volume(int v) { data.volume = v; }
@@ -64,9 +78,6 @@ public class Game_Control : MonoBehaviour {
     /*** SAVING AND LOADING THE DATA ***/
     public void Save()
     {
-        if (ui_handler != null)
-            ui_handler.show_save_text();
-
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Open(Application.persistentDataPath + "/saveData.dat", FileMode.OpenOrCreate); //uses the persistent data path for the application (for windows sthg like appData/roaming/...)
         

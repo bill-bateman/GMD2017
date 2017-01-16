@@ -29,7 +29,8 @@ public class Input_Module : MonoBehaviour
     private float cam_movement_updown, cam_movement_leftright;
     private bool jump_button, camera_h, camera_v, movement_h, movement_v;
     private bool start_button;
-    private bool opened_options;
+    private bool paused;
+    private int just_unpaused;
 
     //CONTROLLER BINDINGS
     private KeyCode controller_jump_button = KeyCode.Joystick1Button0; //A
@@ -62,7 +63,8 @@ public class Input_Module : MonoBehaviour
         jump_button = camera_h = camera_v = movement_h = movement_v = false;
         fwd_back = left_right = cam_movement_updown = cam_movement_leftright = 0.0f;
 
-        start_button = opened_options = false;
+        start_button = paused = false;
+        just_unpaused = 0;
     }
 
     public bool get_jump() {
@@ -94,6 +96,25 @@ public class Input_Module : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //for closing the Options menu
+        if (paused && !Game_Control.control.is_pause_menu_open)
+        {
+            SceneManager.UnloadScene("pause_menu");
+            paused = false;
+            Time.timeScale = 1;
+
+            just_unpaused = 1;
+        }
+
+        if (just_unpaused > 0)
+        {
+            jump_button = false;
+            Input.GetKeyDown(keyboard_jump_button);
+            just_unpaused--;
+            return;
+        }
+
         is_controller = false;
         string[] names = Input.GetJoystickNames();
         for (int x = 0; x < names.Length; x++)
@@ -172,20 +193,13 @@ public class Input_Module : MonoBehaviour
         }
 
 
-        if (start_button && !Game_Control.control.is_options_menu_open && !opened_options) {
-            //open the options menu
-            Game_Control.control.is_options_menu_open = true;
-            SceneManager.LoadScene("options_menu", LoadSceneMode.Additive);
-            opened_options = true;
-            Time.timeScale = 0;
-        }
-
-        //for closing the Options menu
-        if (opened_options && !Game_Control.control.is_options_menu_open)
+        if (start_button && !Game_Control.control.is_pause_menu_open && !paused)
         {
-            SceneManager.UnloadScene("options_menu");
-            opened_options = false;
-            Time.timeScale = 1;
+            //open the options menu
+            Game_Control.control.is_pause_menu_open = true;
+            SceneManager.LoadScene("pause_menu", LoadSceneMode.Additive);
+            paused = true;
+            Time.timeScale = 0;
         }
 
     }

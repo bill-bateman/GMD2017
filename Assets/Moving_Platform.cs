@@ -42,13 +42,15 @@ public class Moving_Platform : MonoBehaviour {
 
     }
 	
-	void FixedUpdate () {
+	void Update () {
+
+        if (Time.timeScale == 0)
+            return;
 
         if (movement_state == 0)
         {
             //move to destination
             counter += Time.deltaTime;
-            //transform.position = Vector3.Lerp(initial_position, destination_position, speed * counter);
             transform.position += offset_per;
 
             foreach (GameObject g in on_platform) //move all objects on the platform
@@ -77,7 +79,6 @@ public class Moving_Platform : MonoBehaviour {
         {
             //move to initial
             counter += Time.deltaTime;
-            //transform.position = Vector3.Lerp(destination_position, initial_position, speed * counter);
             transform.position -= offset_per;
 
             foreach (GameObject g in on_platform)

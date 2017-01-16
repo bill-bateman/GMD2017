@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 /* File: Player_Movement.cs
@@ -26,6 +27,8 @@ public class Player_Movement : MonoBehaviour {
     public Player_Camera cam;
     public Attractor default_attr;
 
+    public UI_Handler ui_handler;
+
     public float speed;
     public float rot_speed;
     public float jump_force = 500.0f;
@@ -39,11 +42,15 @@ public class Player_Movement : MonoBehaviour {
     private int jump_counter;
     private static int jump_counter_max = 10;
 
+    private Vector3 last_safe_spot;
+    private int damaged_counter;
+    private static int damanged_counter_max = 100;
+
 
     /**************************************************************************************
      *                                   UNITY FUNCTIOBNS                                 *
      **************************************************************************************/
-
+    
 	// Use this for initialization
 	void Start () {
         is_on_ground = true;
@@ -68,10 +75,37 @@ public class Player_Movement : MonoBehaviour {
             curr_attr = a;
             cam.update_offset(a.camera_offset);
         }
+
+        last_safe_spot = transform.position;
+        damaged_counter = 0;
 	}
+
+    void update_safe_spot(Collider other)
+    {
+        if (other.tag == "planet" || other.tag == "jumpable" || other.tag == "checkpoint_jumpable")
+        {
+            last_safe_spot = transform.position;
+        }
+    }
+    void check_for_damage()
+    {
+        //deal damage
+        if (damaged_counter == 0)
+        {
+            Game_Control.control.take_damage(1);
+            damaged_counter = damanged_counter_max;
+
+            if (Game_Control.control.get_save_data().player_health == 0)
+            {
+                Time.timeScale = 0; //stop time
+            }
+        }
+    }
 
     //called on entering collision (one of the 2 objects in the collision needs to have isTrigger checked for this to occur)
     void OnTriggerEnter(Collider other) {
+        update_safe_spot(other);
+
         if (other.tag == "planet") { 
             is_on_ground = true;
             if ((Attractor)other.gameObject.GetComponent<Attractor>() == curr_attr) { 
@@ -90,7 +124,16 @@ public class Player_Movement : MonoBehaviour {
         else if (other.tag == "checkpoint_jumpable")
         {
             is_on_ground = true;
-            (other.gameObject.GetComponent<Checkpoint_Platform>()).perform_save();
+            if ((other.gameObject.GetComponent<Checkpoint_Platform>()).perform_save())
+            {
+                ui_handler.show_save_text();
+            }
+            Game_Control.control.full_health(); //back to full health
+        }
+        else if (other.tag == "hazard")
+        {
+            check_for_damage();
+            transform.position = last_safe_spot;
         }
     }
 
@@ -108,6 +151,8 @@ public class Player_Movement : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
+        update_safe_spot(other);
+
         if (other.tag == "planet" || other.tag == "jumpable" || other.tag == "checkpoint_jumpable")
         {
             is_on_ground = true;
@@ -119,6 +164,10 @@ public class Player_Movement : MonoBehaviour {
                 is_on_ground = true;
                 (other.gameObject.GetComponent<Moving_Platform>()).add_item_to_list(gameObject);
             }
+        }
+        else if (other.tag == "hazard")
+        {
+            check_for_damage();
         }
     }
 
@@ -173,6 +222,7 @@ public class Player_Movement : MonoBehaviour {
 
                 Quaternion euler_rot2 = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
                 Vector3 new_offset = Quaternion.Inverse(euler_rot2) * cam_const;
+
                 cam.update_offset(new_offset);
             }
 
@@ -218,6 +268,28 @@ public class Player_Movement : MonoBehaviour {
 
         /*** GRAVITY ***/
         curr_attr.attract_object(rb, is_changing_attractors);
+    }
+
+    void Update()
+    {
+        if (damaged_counter > 0)
+        {
+            damaged_counter--;
+            gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;   
+        }
+        if (damaged_counter < 5)
+        {
+            gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;   
+        }
+
+        if (Game_Control.control.get_save_data().player_health == 0 && damaged_counter == 0)
+        {
+            Game_Control.control.full_health();
+            Time.timeScale = 1;
+            //restart this scene
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        }
     }
 
 
