@@ -24,7 +24,7 @@ public class UI_Handler : MonoBehaviour {
         SaveData sd = Game_Control.control.get_save_data();
 
         GUI.Label(new Rect(10, 10, 100, 30), "HEALTH: " + sd.player_health + " / " + sd.player_max);
-        GUI.Label(new Rect(50, 30, 100, 30), sd.cats_collected + " / " + sd.cats_available);
+        GUI.Label(new Rect(50, 30, 100, 30), sd.cats_collected + "");
         GUI.Label(new Rect(10, 30, 30, 30), cat_image);
 
         if (save_counter > 0)
@@ -40,5 +40,10 @@ public class UI_Handler : MonoBehaviour {
     public void show_save_text()
     {
         save_counter = save_counter_max;
+    }
+
+    public void show_doublejump_text()
+    {
+
     }
 }

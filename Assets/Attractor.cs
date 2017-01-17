@@ -24,11 +24,11 @@ public class Attractor : MonoBehaviour {
     private float time_counter = 0;
 
 
-    //applies this attractor's gravity to the given rigid body
-    public void attract_object(Rigidbody obj, bool is_changing_attractor)
+    public void attract_player(Rigidbody obj, bool is_changing_attractor)
     {
         Vector3 center = gameObject.transform.position; //gets the planet's center
         float rot_speed = rb_rot_speed;
+
 
         if (is_changing_attractor) //i.e. we are using a springboard to travel to this planet
         {
@@ -42,9 +42,23 @@ public class Attractor : MonoBehaviour {
             time_counter += Time.deltaTime;
             if (time_counter < 0.3f) rot_speed = 0.05f;
             if (time_counter < 0.5f) rot_speed = 0.1f;
-            else rot_speed = Mathf.Lerp(0.1f, 5.0f, time_counter/5.0f);
+            else rot_speed = Mathf.Lerp(0.1f, 5.0f, time_counter / 5.0f);
         }
         else time_counter = 0;
+
+        //ROTATION - keep the object correctly rotation (i.e. have down point towards the planet center, and have up be the same as the normal to the planet)
+        Vector3 up = Vector3.Normalize(obj.transform.position - center);
+        Quaternion target_rot = Quaternion.FromToRotation(obj.transform.up, up) * obj.transform.rotation;
+        obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, target_rot, rot_speed * Time.deltaTime);
+
+        //GRAVITY
+        obj.AddForce(local_grav * up);
+    }
+
+    public void attract_object(Rigidbody obj)
+    {
+        Vector3 center = gameObject.transform.position; //gets the planet's center
+        float rot_speed = rb_rot_speed;
 
         //ROTATION - keep the object correctly rotation (i.e. have down point towards the planet center, and have up be the same as the normal to the planet)
         Vector3 up = Vector3.Normalize(obj.transform.position - center);

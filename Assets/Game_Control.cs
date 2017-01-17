@@ -161,13 +161,14 @@ public class SaveData
     public int player_max;
 
     public int cats_collected;
-    public int cats_available;
-    public static int total_cats = 3; //constant
+    public static int total_cats = 5; //constant
 
     public bool[] is_cat_collected = new bool[total_cats];
 
     public string current_scene;
     public int current_checkpoint;
+
+    public bool can_double_jump; //synonymous with having killed the doggo
 
     //VARIABLES FOR OPTIONS MENU
     public int volume;
@@ -178,12 +179,13 @@ public class SaveData
     {
         player_health = 5;
         player_max = 5;
-        cats_collected = 0;
-        cats_available = 3;
+        cats_collected = 3;
         for (int i = 0; i < total_cats; i++) { is_cat_collected[i] = false; }
 
         current_scene = "world_1";
         current_checkpoint = 0;
+
+        can_double_jump = false;
 
         if (reset_options)
         {
