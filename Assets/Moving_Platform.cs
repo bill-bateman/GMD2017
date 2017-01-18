@@ -28,6 +28,7 @@ public class Moving_Platform : MonoBehaviour {
     private Vector3 offset_per = new Vector3();
 
     private List<GameObject> on_platform = new List<GameObject>();
+    private List<Vector3> offsets = new List<Vector3>();
 
 	// Use this for initialization
     void Start()

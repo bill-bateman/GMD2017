@@ -39,6 +39,9 @@ public class Player_Camera : MonoBehaviour {
 
         Game_Control.control.curr_cam_position = transform.position;
         Game_Control.control.curr_cam_rotation = transform.rotation;
+
+        //update volume
+        AudioListener.volume = ((float)Game_Control.control.get_save_data().volume) / 10.0f;
 	}
 
 

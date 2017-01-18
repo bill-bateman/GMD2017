@@ -26,6 +26,15 @@ public class Game_Control : MonoBehaviour {
     public Vector3 curr_cam_position;
     public Quaternion curr_cam_rotation;
 
+    //for dialog
+    public bool is_talking = false;
+    public String[] current_dialog;
+    //granny dialog
+    public String[] dialog1 = { "Hello there grandson! I hope you're having a good day.", "...", "Aren't you going to ask me about my day?", "My day is just TERRIBLE.", "I lost all my cats... :(", "Do you think you could get all my cats back for me?" };
+    public String[] dialog2 = { "There should be 5 cats in all!", "You'll have to get 3 cats before you can leave this planet." };
+    public String[] dialog3 = { "Be careful of that nasty dog!" };
+    public String[] dialog4 = { "You've gotten all my cats back! Thank you.", "(There was going to be more to the game, but the developers ran out of time!)" };
+
     //NOTE: debugging thing - use this to revert to default data
     private static bool delete_data_on_start_up = true;
 
@@ -169,6 +178,7 @@ public class SaveData
     public int current_checkpoint;
 
     public bool can_double_jump; //synonymous with having killed the doggo
+    public bool never_talked_to_granny;
 
     //VARIABLES FOR OPTIONS MENU
     public int volume;
@@ -186,6 +196,7 @@ public class SaveData
         current_checkpoint = 0;
 
         can_double_jump = false;
+        never_talked_to_granny = true;
 
         if (reset_options)
         {

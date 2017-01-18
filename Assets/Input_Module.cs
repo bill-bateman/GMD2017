@@ -31,9 +31,11 @@ public class Input_Module : MonoBehaviour
     private bool start_button;
     private bool paused;
     private int just_unpaused;
+    private bool talk_button;
 
     //CONTROLLER BINDINGS
     private KeyCode controller_jump_button = KeyCode.Joystick1Button0; //A
+    private KeyCode controller_talk_button = KeyCode.Joystick1Button1; //B
     private KeyCode controller_start_button = KeyCode.Joystick1Button7; //start
 
     private string controller_movement_x_axis = "Horizontal"; //left stick
@@ -45,6 +47,7 @@ public class Input_Module : MonoBehaviour
     //KEYBOARD BINDINGS
     private KeyCode keyboard_jump_button = KeyCode.Space;
     private KeyCode keyboard_start_button = KeyCode.Return;
+    private KeyCode keyboard_talk_button = KeyCode.B;
 
     private KeyCode keyboard_movement_up = KeyCode.W;
     private KeyCode keyboard_movement_down = KeyCode.S;
@@ -84,7 +87,7 @@ public class Input_Module : MonoBehaviour
     public float get_camera_vertical() { return Game_Control.control.get_y_axis_inverted() ? -cam_movement_updown : cam_movement_updown; }
     public float get_camera_horizontal() { return Game_Control.control.get_x_axis_inverted() ? -cam_movement_leftright : cam_movement_leftright; }
 
-
+    public bool is_talk_button_pressed() { return talk_button; }
 
 
 
@@ -141,6 +144,7 @@ public class Input_Module : MonoBehaviour
                 jump_button = Input.GetKeyDown(controller_jump_button);
 
             start_button = Input.GetKeyDown(controller_start_button);
+            talk_button = Input.GetKeyDown(controller_talk_button);
         }
         else
         {
@@ -202,6 +206,7 @@ public class Input_Module : MonoBehaviour
             Time.timeScale = 0;
         }
 
+        talk_button = Input.GetKeyDown(keyboard_talk_button);
     }
 }
 

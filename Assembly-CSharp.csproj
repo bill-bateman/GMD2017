@@ -50,11 +50,13 @@
      <Compile Include="Assets\Checkpoint_Platform.cs" />
      <Compile Include="Assets\CoinRotate.cs" />
      <Compile Include="Assets\Continue_Button.cs" />
+     <Compile Include="Assets\DialogWindow_Text.cs" />
      <Compile Include="Assets\DogBehaviour.cs" />
      <Compile Include="Assets\DogCage_Switch.cs" />
      <Compile Include="Assets\EnemyDamage.cs" />
      <Compile Include="Assets\EventSystem_ForceButtonSelect.cs" />
      <Compile Include="Assets\ExitButton.cs" />
+     <Compile Include="Assets\Follow_Text.cs" />
      <Compile Include="Assets\Game_Control.cs" />
      <Compile Include="Assets\Input_Module.cs" />
      <Compile Include="Assets\LoadButton.cs" />
