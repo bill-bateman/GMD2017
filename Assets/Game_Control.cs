@@ -36,7 +36,7 @@ public class Game_Control : MonoBehaviour {
     public String[] dialog4 = { "You've gotten all my cats back! Thank you.", "(There was going to be more to the game, but the developers ran out of time!)" };
 
     //NOTE: debugging thing - use this to revert to default data
-    private static bool delete_data_on_start_up = true;
+    private static bool delete_data_on_start_up = false;
 
 
     /*** GETTERS AND SETTERS ***/
@@ -189,7 +189,7 @@ public class SaveData
     {
         player_health = 5;
         player_max = 5;
-        cats_collected = 3;
+        cats_collected = 0;
         for (int i = 0; i < total_cats; i++) { is_cat_collected[i] = false; }
 
         current_scene = "world_1";

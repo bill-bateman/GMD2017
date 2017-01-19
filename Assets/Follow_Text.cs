@@ -13,12 +13,16 @@ public class Follow_Text : MonoBehaviour {
 
     private bool in_range;
     private bool is_talking;
+    private AudioSource audio_victory;
 
 	// Use this for initialization
 	void Start () {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
+        
         in_range = false;
         is_talking = false;
+
+        audio_victory = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -60,8 +64,11 @@ public class Follow_Text : MonoBehaviour {
                 Time.timeScale = 1; //restart time
 
                 //if we won, show victory text
-                if (Game_Control.control.get_save_data().cats_collected == SaveData.total_cats)
+                if (Game_Control.control.get_save_data().cats_collected >= SaveData.total_cats)
+                {
                     ui_handler.show_victory_text();
+                    audio_victory.Play();
+                }
 
                 Game_Control.control.get_save_data().never_talked_to_granny = false;
                 Game_Control.control.Save();

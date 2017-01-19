@@ -58,12 +58,11 @@ public class Attractor : MonoBehaviour {
     public void attract_object(Rigidbody obj)
     {
         Vector3 center = gameObject.transform.position; //gets the planet's center
-        float rot_speed = rb_rot_speed;
 
         //ROTATION - keep the object correctly rotation (i.e. have down point towards the planet center, and have up be the same as the normal to the planet)
         Vector3 up = Vector3.Normalize(obj.transform.position - center);
         Quaternion target_rot = Quaternion.FromToRotation(obj.transform.up, up) * obj.transform.rotation;
-        obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, target_rot, rot_speed * Time.deltaTime);
+        obj.transform.rotation = target_rot;
 
         //GRAVITY
         obj.AddForce(local_grav * up);

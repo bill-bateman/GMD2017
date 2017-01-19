@@ -28,7 +28,7 @@ public class Moving_Platform : MonoBehaviour {
     private Vector3 offset_per = new Vector3();
 
     private List<GameObject> on_platform = new List<GameObject>();
-    private List<Vector3> offsets = new List<Vector3>();
+    private AudioSource audio_move;
 
 	// Use this for initialization
     void Start()
@@ -41,6 +41,10 @@ public class Moving_Platform : MonoBehaviour {
         offset_per.y = (destination_position.y - initial_position.y) / frame_count;
         offset_per.z = (destination_position.z - initial_position.z) / frame_count;
 
+        audio_move = GetComponent<AudioSource>();
+        audio_move.volume = 0.5f;
+
+        audio_move.Play();
     }
 	
 	void Update () {
@@ -64,6 +68,8 @@ public class Moving_Platform : MonoBehaviour {
             {
                 movement_state = 1;
                 counter = 0;
+
+                audio_move.Stop();
             }
         }
         else if (movement_state == 1)
@@ -74,6 +80,8 @@ public class Moving_Platform : MonoBehaviour {
             {
                 counter = 0;
                 movement_state = 2;
+
+                audio_move.Play();
             }
         }
         else if (movement_state == 2)
@@ -92,6 +100,8 @@ public class Moving_Platform : MonoBehaviour {
             {
                 movement_state = 3;
                 counter = 0;
+
+                audio_move.Stop();
             }
 
         }
@@ -103,6 +113,8 @@ public class Moving_Platform : MonoBehaviour {
             {
                 movement_state = 0;
                 counter = 0;
+
+                audio_move.Play();
             }
         }
 

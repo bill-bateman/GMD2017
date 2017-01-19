@@ -28,12 +28,16 @@ public class Player_Movement : MonoBehaviour {
     public Attractor default_attr;
 
     public UI_Handler ui_handler;
+    public GameObject robot_renderer;
 
     public float speed;
     public float rot_speed;
     public float jump_force = 500.0f;
 
+    public AudioClip impact, jump, walk, damage, death, save;
 
+
+    private AudioSource audio_s;
     private Attractor curr_attr;
     private Rigidbody rb;
     private bool is_on_ground;
@@ -58,6 +62,8 @@ public class Player_Movement : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+        audio_s = GetComponent<AudioSource>();
+
         is_on_ground = true;
         is_changing_attractors = false;
         double_jump_tracker = false;
@@ -104,7 +110,15 @@ public class Player_Movement : MonoBehaviour {
 
             if (Game_Control.control.get_save_data().player_health == 0)
             {
+                audio_s.clip = death;
+                audio_s.Play();
+
                 Time.timeScale = 0; //stop time
+            }
+            else
+            {
+                audio_s.clip = damage;
+                audio_s.Play();
             }
         }
     }
@@ -114,9 +128,15 @@ public class Player_Movement : MonoBehaviour {
         return (damaged_counter != 0);
     }
 
+    public bool is_on_planet3()
+    {
+        return (curr_attr.name == "Planet3_Body" && !is_changing_attractors);
+    }
+
     //called on entering collision (one of the 2 objects in the collision needs to have isTrigger checked for this to occur)
     void OnTriggerEnter(Collider other) {
         update_safe_spot(other);
+
 
         if (other.tag == "planet") { 
             is_on_ground = true;
@@ -124,27 +144,42 @@ public class Player_Movement : MonoBehaviour {
             if ((Attractor)other.gameObject.GetComponent<Attractor>() == curr_attr) { 
                 is_changing_attractors = false; 
             }
+
+            audio_s.clip = impact;
+            audio_s.Play();
         }
         else if (other.tag == "jumpable")
         {
             is_on_ground = true;
             double_jump_tracker = false;
+            is_changing_attractors = false;
+
+            audio_s.clip = impact;
+            audio_s.Play();
         }
         else if (other.tag == "sticky_jumpable")
         {
             is_on_ground = true;
             double_jump_tracker = false;
+            is_changing_attractors = false; 
             (other.gameObject.GetComponent<Moving_Platform>()).add_item_to_list(gameObject);
+
+            audio_s.clip = impact;
+            audio_s.Play();
         }
         else if (other.tag == "checkpoint_jumpable")
         {
             double_jump_tracker = false;
             is_on_ground = true;
+            is_changing_attractors = false; 
             if ((other.gameObject.GetComponent<Checkpoint_Platform>()).perform_save())
             {
                 ui_handler.show_save_text();
             }
             Game_Control.control.full_health(); //back to full health
+
+            audio_s.clip = save;
+            audio_s.Play();
         }
         else if (other.tag == "hazard")
         {
@@ -260,6 +295,14 @@ public class Player_Movement : MonoBehaviour {
                 Vector3 new_offset = Quaternion.Inverse(euler_rot2) * cam_const;
 
                 cam.update_offset(new_offset);
+
+                print(Vector3.Magnitude(movement));
+                if (is_on_ground && Vector3.Magnitude(movement) > 0.001f)
+                {
+                    audio_s.clip = walk;
+                    if (!audio_s.isPlaying)
+                        audio_s.Play();
+                }
             }
 
 
@@ -300,6 +343,9 @@ public class Player_Movement : MonoBehaviour {
                 rb.AddForce(jump_force * up);
 
                 jump_counter = jump_counter_max; //jump cooldown
+
+                audio_s.clip = jump;
+                audio_s.Play();
             }
 
         }
@@ -314,7 +360,8 @@ public class Player_Movement : MonoBehaviour {
         if (damaged_counter > 0)
         {
             damaged_counter--;
-            gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
+            //gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
+            robot_renderer.GetComponent<Renderer>().material.color = Color.red;
 
             if (damaged_moving_counter > 0)
             {
@@ -324,7 +371,8 @@ public class Player_Movement : MonoBehaviour {
         }
         if (damaged_counter < 5)
         {
-            gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;   
+            //gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
+            robot_renderer.GetComponent<Renderer>().material.color = Color.white;
         }
         if (damaged_counter == 0)
         {

@@ -22,6 +22,8 @@ public class CoinRotate : MonoBehaviour {
     private static int animation_max = 100;
     private float up_incr;
 
+    private AudioSource audio_cat;
+
 	// Use this for initialization
 	void Start () {
         if (Game_Control.control.check_cat_coin(coin_index))
@@ -33,6 +35,8 @@ public class CoinRotate : MonoBehaviour {
         angle_incr = 1.0f;
         animation_count = 0;
         up_incr = 0.01f;
+
+        audio_cat = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -67,6 +71,8 @@ public class CoinRotate : MonoBehaviour {
             animation_count = 1; //start the animation
             Game_Control.control.collect_cat_coin(coin_index); //increase by 1
             other.GetComponentInParent<Player_Movement>().ui_handler.show_save_text();
+
+            audio_cat.Play();
         }
     }
 }

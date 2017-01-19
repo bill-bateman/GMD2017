@@ -25,11 +25,13 @@ public class Springboard_Platform : MonoBehaviour {
     private int animation_state = 0;
     private Vector3 initial_pos;
     private Vector3 final_pos;
+    private AudioSource audio_boing;
 
     void Start()
     {
         initial_pos = gameObject.transform.position;
         final_pos = initial_pos + (Vector3.Normalize(gameObject.transform.up) * springboard_dist);
+        audio_boing = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -40,6 +42,7 @@ public class Springboard_Platform : MonoBehaviour {
             player.update_gravity_attractor(new_attractor, springboard_power);
 
             animation_state = 1;
+            audio_boing.Play();
         }
     }
 

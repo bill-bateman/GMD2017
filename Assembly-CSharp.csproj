@@ -77,6 +77,7 @@
      <Compile Include="Assets\StarNestSkybox\Scripts\SkyboxSwitcher.cs" />
      <Compile Include="Assets\Sticky_Platform.cs" />
      <Compile Include="Assets\UI_Handler.cs" />
+     <Compile Include="Assets\VolumeControl.cs" />
      <Compile Include="Assets\linear_move.cs" />
      <None Include="Assets\StarNestSkybox\StarNestSkyboxReadme.txt" />
      <None Include="Assets\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
