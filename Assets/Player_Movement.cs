@@ -296,7 +296,6 @@ public class Player_Movement : MonoBehaviour {
 
                 cam.update_offset(new_offset);
 
-                print(Vector3.Magnitude(movement));
                 if (is_on_ground && Vector3.Magnitude(movement) > 0.001f)
                 {
                     audio_s.clip = walk;

@@ -122,7 +122,7 @@ public class Input_Module : MonoBehaviour
         string[] names = Input.GetJoystickNames();
         for (int x = 0; x < names.Length; x++)
         {
-            if (names[x].Length == 33) { is_controller = true; } //XBOX controller detected
+            if (names[x].ToString().ToLower().Contains("xbox 360")) { is_controller = true; }
         }
 
         if (is_controller)
