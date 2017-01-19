@@ -194,6 +194,7 @@ public class Input_Module : MonoBehaviour
                 jump_button = (Input.GetKeyDown(keyboard_jump_button));
 
             start_button = Input.GetKeyDown(keyboard_start_button);
+            talk_button = Input.GetKeyDown(keyboard_talk_button);
         }
 
 
@@ -206,7 +207,7 @@ public class Input_Module : MonoBehaviour
             Time.timeScale = 0;
         }
 
-        talk_button = Input.GetKeyDown(keyboard_talk_button);
+        
     }
 }
 
