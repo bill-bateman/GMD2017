@@ -1,7 +1,4 @@
 sceneSetups:
-- path: Assets/world_1.unity
+- path: Assets/pause_menu.unity
   isLoaded: 1
   isActive: 1
-- path: Assets/dialog_window.unity
-  isLoaded: 1
-  isActive: 0
