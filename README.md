@@ -12,6 +12,7 @@ You awaken to find your grandmother in distress - her cats are all gone! Embark 
 
 RUNNING THE GAME-
 Double-click and chose a resolution! Any resolution will work. 1280x600 works well for the UI components.
+NOTE: This github repo does not include an executable, just the Unity project.
 
 CONTROLS-
 Keyboard controls - WASD for movement, arrow keys for camera, spacebar for jumping, b for interacting, enter to pause
